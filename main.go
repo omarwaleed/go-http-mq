@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -27,9 +28,18 @@ func main() {
 
 func HandleQueueEntry(w http.ResponseWriter, r *http.Request) {
 
+	vars := mux.Vars(r)
+	queueName := vars["queue"]
+
 	switch r.Method {
 	case "GET":
-
+		err, entry := getQueueEntry(queueName)
+		if err != nil {
+			w.WriteHeader(400)
+			fmt.Fprintln(w, err.Error())
+		}
+		w.WriteHeader(200)
+		fmt.Fprintln(w, entry)
 	case "POST":
 	default:
 		log.Fatalln("Somehow method is not GET or POST")
