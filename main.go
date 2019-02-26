@@ -11,12 +11,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Queue is the main structure holding the data saved in memory for each queue
 type Queue struct {
 	name    string
 	entries [][]byte
 	// Consumers []string
 }
 
+// queues is a variable that is accessable to all package functions and serves as the application memory store for all queues
 var queues = []Queue{}
 
 func main() {
